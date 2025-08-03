@@ -127,7 +127,7 @@ The intelligent scheduling system considers:
 - Estimated duration
 - Available work hours
 - Task dependencies and optimal time blocks
-![Homepage](assets/homepage.png)
+![Homepage](assets/Homepage.png)
 ## API Endpoints
 
 ### Authentication
