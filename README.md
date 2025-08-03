@@ -147,7 +147,7 @@ The intelligent scheduling system considers:
 ### Categories
 - `GET /api/categories` - Get all categories
 - `POST /api/categories` - Create new category
-![Dashboard](assets/dashboard.png)
+![Dashboard](assets/Dashboard.png)
 
 ### Schedule
 - `POST /api/schedule/generate` - Generate optimized schedule
