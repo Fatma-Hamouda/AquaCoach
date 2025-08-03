@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block title %}Schedule - Smart Task Manager{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">
+        <i data-feather="calendar" class="me-2"></i>
+        Daily Schedule
+    </h2>
+    <div class="d-flex gap-2">
+        <input type="date" class="form-control" id="scheduleDate" value="{{ schedule_date.isoformat() }}">
+        <button class="btn btn-primary" onclick="generateSchedule()">
+            <i data-feather="cpu" class="me-1"></i>
+            Generate Schedule
+        </button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-transparent border-0">
+                <h5 class="mb-0">
+                    <i data-feather="clock" class="me-2"></i>
+                    Schedule for {{ schedule_date.strftime('%B %d, %Y') }}
+                </h5>
+            </div>
+            <div class="card-body p-0">
+                <div id="scheduleTimeline">
+                    {% if schedule_items %}
+                        <div class="timeline">
+                            {% for item in schedule_items %}
+                            <div class="timeline-item">
+                                <div class="timeline-time">
+                                    {{ item.start_time.strftime('%H:%M') }}
+                                </div>
+                                <div class="timeline-content">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="flex-grow-1">
+                                            <div class="d-flex align-items-center">
+                                                {% if item.task.category %}
+                                                    <span class="badge rounded-pill me-2" style="background-color: {{ item.task.category.color }};">
+                                                        {{ item.task.category.name }}
+                                                    </span>
+                                                {% endif %}
+                                                <span class="fw-medium">{{ item.task.title }}</span>
+                                            </div>
+                                            <small class="text-muted">
+                                                {{ item.start_time.strftime('%H:%M') }} - {{ item.end_time.strftime('%H:%M') }}
+                                                ({{ ((item.end_time.hour * 60 + item.end_time.minute) - (item.start_time.hour * 60 + item.start_time.minute)) }} minutes)
+                                            </small>
+                                            {% if item.task.description %}
+                                                <p class="text-muted small mb-0 mt-1">{{ item.task.description }}</p>
+                                            {% endif %}
+                                        </div>
+                                        <button class="btn btn-sm btn-outline-success" onclick="markTaskComplete({{ item.task.id }})">
+                                            <i data-feather="check" class="me-1"></i>
+                                            Complete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i data-feather="calendar" style="width: 64px; height: 64px;" class="text-muted mb-3"></i>
+                            <h4 class="text-muted">No schedule generated</h4>
+                            <p class="text-muted">Click "Generate Schedule" to create an optimized daily plan based on your tasks.</p>
+                            <button class="btn btn-primary" onclick="generateSchedule()">
+                                <i data-feather="cpu" class="me-1"></i>
+                                Generate Schedule
+                            </button>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <!-- Schedule Summary -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-transparent border-0">
+                <h6 class="mb-0">
+                    <i data-feather="bar-chart-2" class="me-2"></i>
+                    Schedule Summary
+                </h6>
+            </div>
+            <div class="card-body">
+                <div id="scheduleSummary">
+                    {% if schedule_items %}
+                        <div class="row text-center">
+                            <div class="col-6">
+                                <div class="border-end">
+                                    <h4 class="text-primary mb-0">{{ schedule_items|length }}</h4>
+                                    <small class="text-muted">Tasks</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <h4 class="text-success mb-0">
+                                    {{ (schedule_items|sum(attribute='task.estimated_duration') / 60)|round(1) }}h
+                                </h4>
+                                <small class="text-muted">Total Time</small>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="text-center text-muted">
+                            <p class="mb-0">No schedule data available</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Pending Tasks -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-transparent border-0">
+                <h6 class="mb-0">
+                    <i data-feather="list" class="me-2"></i>
+                    Pending Tasks
+                </h6>
+            </div>
+            <div class="card-body p-0">
+                <div id="pendingTasks">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Schedule Efficiency Modal -->
+<div class="modal fade" id="efficiencyModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Schedule Efficiency</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="efficiencyContent">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/schedule.js') }}"></script>
+<script>
+    // Initialize with current schedule date
+    const currentScheduleDate = '{{ schedule_date.isoformat() }}';
+    
+    // Load pending tasks
+    loadPendingTasks();
+    
+    // Date change handler
+    document.getElementById('scheduleDate').addEventListener('change', function() {
+        const selectedDate = this.value;
+        window.location.href = `{{ url_for('schedule') }}?date=${selectedDate}`;
+    });
+</script>
+{% endblock %}

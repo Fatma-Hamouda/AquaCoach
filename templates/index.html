@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome - Smart Task Manager{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="text-center mb-5">
+            <div class="mb-4">
+                <i data-feather="check-square" style="width: 64px; height: 64px;" class="text-primary"></i>
+            </div>
+            <h1 class="display-4 fw-bold mb-3">Smart Task Manager</h1>
+            <p class="lead text-muted mb-4">
+                Organize your tasks, get AI-powered scheduling suggestions, and boost your productivity with intelligent time management.
+            </p>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="mb-3">
+                            <i data-feather="list" class="text-primary" style="width: 40px; height: 40px;"></i>
+                        </div>
+                        <h5 class="card-title">Task Management</h5>
+                        <p class="card-text text-muted">
+                            Create, categorize, and prioritize your tasks with ease. Set deadlines and track progress.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="mb-3">
+                            <i data-feather="cpu" class="text-success" style="width: 40px; height: 40px;"></i>
+                        </div>
+                        <h5 class="card-title">AI Scheduling</h5>
+                        <p class="card-text text-muted">
+                            Get intelligent daily schedules based on task priority, deadlines, and estimated durations.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="mb-3">
+                            <i data-feather="pie-chart" class="text-info" style="width: 40px; height: 40px;"></i>
+                        </div>
+                        <h5 class="card-title">Progress Analytics</h5>
+                        <p class="card-text text-muted">
+                            Track your productivity with visual charts and insights into your task completion patterns.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg px-4 me-md-2">
+                    <i data-feather="user-plus" class="me-2"></i>
+                    Get Started
+                </a>
+                <a href="{{ url_for('login') }}" class="btn btn-outline-secondary btn-lg px-4">
+                    <i data-feather="log-in" class="me-2"></i>
+                    Sign In
+                </a>
+            </div>
+            <p class="text-muted mt-3 small">
+                Already have an account? <a href="{{ url_for('login') }}" class="text-decoration-none">Sign in here</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="card border-0 bg-primary bg-opacity-10">
+            <div class="card-body py-4">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h4 class="mb-2">How Smart Scheduling Works</h4>
+                        <p class="mb-0 text-muted">
+                            The intelligent algorithm analyzes your task priorities, deadlines, and estimated durations to create optimized daily schedules. 
+                            It considers urgency, importance, and your available time slots to maximize productivity.
+                        </p>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <i data-feather="cpu" class="text-primary" style="width: 80px; height: 80px;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
