@@ -127,14 +127,20 @@ The intelligent scheduling system considers:
 - Estimated duration
 - Available work hours
 - Task dependencies and optimal time blocks
+  
 ![Homepage](assets/Homepage.png)
+
 ## API Endpoints
 
 ### Authentication
 - `POST /register` - User registration
+  
 ![Register](assets/Register.png)
+
 - `POST /Sign in` - User Sign-in
+  
 ![Sign In](assets/Signin.png)
+
 - `GET /logout` - User logout
 
 ### Tasks
@@ -142,30 +148,18 @@ The intelligent scheduling system considers:
 - `POST /api/tasks` - Create new task
 - `PUT /api/tasks/<id>` - Update task
 - `DELETE /api/tasks/<id>` - Delete task
+  
 ![Tasks](assets/Tasks.png)
 
 ### Categories
 - `GET /api/categories` - Get all categories
 - `POST /api/categories` - Create new category
+  
 ![Dashboard](assets/Dashboard.png)
 
 ### Schedule
 - `POST /api/schedule/generate` - Generate optimized schedule
 - `GET /api/schedule/<date>` - Get schedule for specific date
+  
 ![Schedule](assets/Schedul.png)
 
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Support
-
-For support, email your-email@example.com or create an issue in the repository.
